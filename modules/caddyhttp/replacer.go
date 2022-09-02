@@ -373,6 +373,9 @@ func getReqTLSReplacement(req *http.Request, key string) (any, bool) {
 		case "client.certificate_pem":
 			block := pem.Block{Type: "CERTIFICATE", Bytes: cert.Raw}
 			return pem.EncodeToMemory(&block), true
+		case "client.certificate_pem_escaped":
+			block := pem.Block{Type: "CERTIFICATE", Bytes: cert.Raw}
+			return url.QueryEscape(string(pem.EncodeToMemory(&block))), true
 		case "client.certificate_der_base64":
 			return base64.StdEncoding.EncodeToString(cert.Raw), true
 		default:
